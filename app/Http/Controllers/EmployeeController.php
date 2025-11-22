@@ -19,4 +19,6 @@ class EmployeeController extends Controller
         return response()->json(['message' => 'Registered successfully', 'user' => $user], 201);
     }
 
+
+
 }

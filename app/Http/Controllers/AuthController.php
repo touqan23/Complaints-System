@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Services\AuthService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class AuthController extends Controller
 {
@@ -83,6 +84,12 @@ class AuthController extends Controller
 
         return response()->json($response, 200);
     }
-
+    public function try(Request $request){
+        $path = $request->file('file')->storePublicly('public/images');
+        return response()->json([
+            'path' => "https://touqa200.s3.eu-north-1.amazonaws.com/$path",
+            'msg' =>'success',
+        ]);
+    }
 
 }

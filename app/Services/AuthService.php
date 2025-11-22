@@ -69,13 +69,14 @@ class AuthService {
     public function registerCitizen(array $data)
     {
         $user = $this->userRepository->createCitizenUser($data);
-
+        ////
+        $user->assignRole('citizen');
         $this->citizenRepository->create([
             'national_number' => $data['national_number'],
             'identifier' => $data['identifier'],
             'user_id' => $user->id,
         ]);
-        $user->load('citizen');
+        $user->load('citizen', 'roles', 'permissions');
 
         $token = $user->createToken('auth_token')->plainTextToken;
         return ['user' => $user, 'token' => $token];
@@ -85,12 +86,14 @@ class AuthService {
     {
         $user = $this->userRepository->createEmployeeUser($data);
 
+        $user->assignRole('employee');
+
         $this->employeeRepository->create([
             'user_id' => $user->id,
             'department_id' => $data['department_id'],
             'serial_number' => $data['serial_number'],
         ]);
-        $user->load('employee');
+        $user->load('employee', 'roles', 'permissions');
 
         return ['user' => $user,];
     }

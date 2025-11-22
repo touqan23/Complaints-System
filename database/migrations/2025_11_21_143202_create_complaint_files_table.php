@@ -11,13 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('citizens', function (Blueprint $table) {
+        Schema::create('complaint_files', function (Blueprint $table) {
             $table->id();
-            $table->string('national_number')->unique();
-            $table->string('email')->unique()->nullable();
-            $table->foreignId('user_id')
-                ->constrained('users')
-                ->onDelete('cascade');
+            $table->foreignId('complaint_id')->constrained('complaints')->onDelete('cascade');
+            $table->string('url');
+            $table->string('type')->nullable(); // image/png, pdf…
             $table->timestamps();
         });
     }
@@ -27,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('citizens');
+        Schema::dropIfExists('complaint_files');
     }
 };

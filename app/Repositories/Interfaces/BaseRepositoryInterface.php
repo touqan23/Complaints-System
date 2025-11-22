@@ -13,5 +13,7 @@ interface BaseRepositoryInterface {
     public function update($model, mixed $data);
     public function delete($model);
     public function verifyOtp($model, string $otp);
+
+
 }
 

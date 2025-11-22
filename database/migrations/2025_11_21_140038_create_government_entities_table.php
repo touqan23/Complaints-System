@@ -11,13 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('citizens', function (Blueprint $table) {
+        Schema::create('government_entities', function (Blueprint $table) {
             $table->id();
-            $table->string('national_number')->unique();
-            $table->string('email')->unique()->nullable();
-            $table->foreignId('user_id')
-                ->constrained('users')
-                ->onDelete('cascade');
+            $table->string('name');
             $table->timestamps();
         });
     }
@@ -27,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('citizens');
+        Schema::dropIfExists('government_entities');
     }
 };

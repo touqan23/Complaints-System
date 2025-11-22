@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Repositories\Eloquent\ComplaintRepository;
+use App\Repositories\Interfaces\ComplaintRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
 use App\Repositories\Interfaces\UserRepositoryInterface;
 use App\Repositories\Eloquent\UserRepository;
@@ -23,6 +25,11 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(
             \App\Repositories\Interfaces\EmployeeRepositoryInterface::class,
             \App\Repositories\Eloquent\EmployeeRepository::class
+        );
+
+        $this->app->bind(
+            ComplaintRepositoryInterface::class,
+            ComplaintRepository::class
         );
     }
 
