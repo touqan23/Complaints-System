@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use App\Repositories\Interfaces\ComplaintRepositoryInterface;
 use Illuminate\Support\Str;
+use App\Models\Notes;
 
 class ComplaintRepository  extends BaseRepository implements ComplaintRepositoryInterface
 {
@@ -99,6 +100,56 @@ class ComplaintRepository  extends BaseRepository implements ComplaintRepository
     {
         $data['reference_number'] = $this->generateReferenceNumber();
         return parent::create($data);
+    }
+
+/////////////////////////////notes
+    public function addNote(int $complaintId, int $employeeId, string $note, bool $requestedToCitizen = false): Notes
+    {
+        return Notes::create([
+            'complaint_id' => $complaintId,
+            'employee_id' => $employeeId,
+            'note' => $note,
+            'requested_to_citizen' => $requestedToCitizen,
+        ]);
+    }
+
+    public function getNotesByComplaint(int $complaintId)
+    {
+        return Notes::where('complaint_id', $complaintId)
+            ->with('employee')
+            ->latest()
+            ->get();
+    }
+
+    public function getCitizenNotes(int $complaintId)
+    {
+        return Notes::where('complaint_id', $complaintId)
+            ->with('employee')
+            ->latest()
+            ->get();
+    }
+
+    public function getInternalNotes(int $complaintId)
+    {
+        return Notes::where('complaint_id', $complaintId)
+            ->where('requested_to_citizen', false)
+            ->with('employee')
+            ->latest()
+            ->get();
+    }
+
+    public function deleteNote(int $noteId): bool
+    {
+        return Notes::where('id', $noteId)->delete();
+    }
+
+    public function updateNote(int $noteId, array $data): ?Notes
+    {
+        $note = Notes::find($noteId);
+        if (!$note) return null;
+
+        $note->update($data);
+        return $note;
     }
 }
 

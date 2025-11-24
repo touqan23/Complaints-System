@@ -25,7 +25,13 @@ return new class extends Migration
             $table->string('location'); // موقع المشكلة
             $table->text('description')->nullable(); // وصف المشكلة
             $table->string('reference_number')->unique(); // رقم مرجعي auto
-            $table->enum('status', ['new', 'processing', 'resolved', 'rejected'])->default('new');
+            $table->enum('status', ['new',
+                'need_more_info',
+                'resubmitted',
+                'processing',
+                'resolved',
+                'rejected'
+            ])->default('new');
             $table->timestamps();
         });
     }

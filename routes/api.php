@@ -45,11 +45,20 @@ Route::controller(AdminController::class)/*->middleware(['auth:sanctum', 'role:a
 Route::controller(EmployeeController::class)/*->middleware(['auth:sanctum', 'role:admin'])*/->group(function () {
 });
 
-Route::controller(ComplaintController::class)/*->middleware(['auth:sanctum', 'role:citizen'])*/->group(function () {
-    Route::post('/create/complaints', [ComplaintController::class, 'store']);
-    Route::get('/complaints/reference/{ref}', [ComplaintController::class, 'showByReference']);
-    Route::get('/complaints/citizen/{id}', [ComplaintController::class, 'citizenComplaints']);
-    Route::get('/complaints/status/{status}', [ComplaintController::class, 'complaintsByStatus']);
-    Route::get('/complaints/entity/{id}', [ComplaintController::class, 'entityComplaints']);
-    Route::post('/complaints/status', [ComplaintController::class, 'updateStatus']);
+Route::controller(ComplaintController::class)->middleware(['auth:sanctum', 'role:citizen,employee'])->group(function () {
+    Route::post('/create/complaints', 'store');
+    Route::get('/complaints/reference/{ref}',  'showByReference');
+    Route::get('/complaints/citizen/{id}', 'citizenComplaints');
+    Route::get('/complaints/status/{status}',  'complaintsByStatus');
+    Route::get('/complaints/entity/{id}',  'entityComplaints');
+    Route::post('/complaints/status', 'updateStatus');
+    //notes
+    Route::post('/add/note',  'addNote');
+    Route::get('/get/note/{id}',  'getNotes');
+    Route::get('/get/citizen/note/{id}',  'getCitizenNotes');
+    Route::get('/delete/note/{id}',  'deleteNote');
+    Route::post('/update/note',  'updateNote');
+
+
+
 });

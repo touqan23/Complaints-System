@@ -46,4 +46,6 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'otp_expires_at' => 'datetime',
     ];
+
+
 }

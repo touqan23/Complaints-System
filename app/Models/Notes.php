@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Notes extends Model
 {
     use HasFactory;
-    protected $fillable = ['complaint_id' ,'employee_id', 'note'];
+    protected $fillable = ['complaint_id' ,'employee_id', 'note','requested_to_citizen'];
     public function complaint()
     {
         return $this->belongsTo(Complaint::class);

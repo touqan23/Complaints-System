@@ -39,4 +39,6 @@ class Complaint extends Model
     {
         return $this->hasMany(Notes::class);
     }
+
+
 }

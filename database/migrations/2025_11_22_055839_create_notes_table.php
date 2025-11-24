@@ -20,6 +20,7 @@ return new class extends Migration
                 ->constrained('employees')
                 ->onDelete('cascade');
             $table->longText('note');
+            $table->boolean('requested_to_citizen')->default(false);
             $table->timestamps();
         });
     }

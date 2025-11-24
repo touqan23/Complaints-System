@@ -35,9 +35,11 @@ class AuthService {
 
         $employee->user->update(['last_login_at' => Carbon::now()]);
         $token = $employee->user->createToken('auth_token')->plainTextToken;
+        $employee->load('user');
+
         $employee->user->token = $token;
 
-        $employee->load('user');
+       // $employee->load('user');
 
         return $employee;
     }
