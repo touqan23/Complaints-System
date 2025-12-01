@@ -38,6 +38,11 @@ class Complaint extends Model
         'locked_at'
     ];
 
+    protected $casts = [
+    'locked_at' => 'datetime',
+];
+
+
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
@@ -53,11 +58,6 @@ class Complaint extends Model
     {
         return $this->belongsTo(Citizen::class);
     }
-
-//    public function governmentEntity()
-//    {
-//        return $this->belongsTo(GovernmentEntity::class);
-//    }
 
     public function department()
     {
@@ -75,11 +75,34 @@ class Complaint extends Model
         return $this->hasMany(Notes::class);
     }
 
+    //versioning
+    public static function boot()
+    {
+        parent::boot();
+
+        static::updated(function ($complaint) {
+            $complaint->saveVersion();
+        });
+    }
+
+    public function versions()
+    {
+        return $this->hasMany(ComplaintVersion::class);
+    }
+
+    public function saveVersion()
+    {
+        $latestVersion = $this->versions()->max('version') ?? 0;
+
+        ComplaintVersion::create([
+            'complaint_id' => $this->id,
+            'snapshot'     => $this->toArray(),   // full snapshot
+            'version'      => $latestVersion + 1,
+            'created_by'   => auth()->id(),
+        ]);
+    }
 
 
-    protected $casts = [
-        'locked_at' => 'datetime',
-    ];
 
 
 }

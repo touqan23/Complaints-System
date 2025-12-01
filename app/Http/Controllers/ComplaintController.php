@@ -327,9 +327,18 @@ class ComplaintController extends Controller
 
         return response()->json([
             "status" => "success",
-            'reference' => $referenceNumber,
-            'history' => $this->service->getHistory($complaint)
+            'history' => $this->service->getHistory($complaint),
+            'versions' => $complaint->versions
         ]);
     }
+
+    public function activityLog()
+    {
+        return response()->json([
+            "status" => "success",
+            "logs" => $this->service->getSystemActivity()
+        ]);
+    }
+
 
 }

@@ -56,6 +56,7 @@ Route::controller(ComplaintController::class)->middleware(['auth:sanctum', 'role
     Route::post('/complaints/citizen/update',  'updateByCitizen');
     Route::get('/complaints/citizen/nationalNumber/{nationalNumber}', 'getcitizenComplaintsbynationalnumber');
     Route::get('/complaints/history/{referenceNumber}' ,'history');
+    Route::get('/complaints/log' ,'activityLog');
 
 
     Route::post('/complaints/status', 'updateStatus');

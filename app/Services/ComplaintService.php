@@ -7,6 +7,7 @@ use App\Models\Notes;
 use App\Repositories\Interfaces\ComplaintRepositoryInterface;
 use Illuminate\Support\Facades\DB;
 use Laravel\Prompts\Note;
+use Spatie\Activitylog\Models\Activity;
 
 class ComplaintService
 {
@@ -387,6 +388,14 @@ class ComplaintService
     {
         return $complaint->activities()->orderBy('created_at', 'desc')->get();
     }
+
+    public function getSystemActivity()
+    {
+        return Activity::with(['causer'])
+            ->orderBy('created_at', 'desc')
+            ->get();
+    }
+
 
 
 }
